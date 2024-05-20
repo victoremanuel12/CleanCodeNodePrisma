@@ -1,27 +1,43 @@
-import { Usecase } from "../Usecase";
-import { ProductGeteway } from "../../Domain/Geteways/products.geteway";
 import { Product } from "../../Domain/Entity/product.entity";
-export type createProductInputDto = {
-  name: string;
-  price: number;
+import { IProductGeteway } from "../../Domain/Geteways/products.geteway";
+import { Usecase } from "../Usecase";
+
+export type CreateProductInputDto = {
+    name: string;
+    price: number;
 };
+
 export type CreateProductOutputDto = {
-  id: string;
+    id: string;
 };
 
 export class CreateProductUsecase
-  implements Usecase<createProductInputDto, CreateProductOutputDto>
+    implements Usecase<CreateProductInputDto, CreateProductOutputDto>
 {
-  private constructor(private readonly productGateway : ProductGeteway) {}
-  public static create(productGeteway: ProductGeteway) {
-    return new CreateProductUsecase(productGeteway);
-  }
-  public async execute({name, price}: createProductInputDto): Promise<CreateProductOutputDto> {
-        const addProduct = Product.create(name, price);
-        await this.productGateway.save(addProduct);
-        const output : CreateProductOutputDto = {
-            id: addProduct.id
-        }
+    private constructor(private readonly productGateway: IProductGeteway) {}
+
+    public static create(productGateway: IProductGeteway) {
+        return new CreateProductUsecase(productGateway);
+    }
+
+    public async execute({
+        name,
+        price,
+    }: CreateProductInputDto): Promise<CreateProductOutputDto> {
+        const aProduct = Product.create(name, price);
+
+        await this.productGateway.save(aProduct);
+
+        const output = this.presentOutput(aProduct);
+
         return output;
-  }
+    }
+
+    private presentOutput(product: Product): CreateProductOutputDto {
+        const output: CreateProductOutputDto = {
+            id: product.id
+        }
+
+        return output;
+    }
 }
