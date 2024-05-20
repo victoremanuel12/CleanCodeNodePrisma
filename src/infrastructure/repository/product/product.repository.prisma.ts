@@ -6,14 +6,14 @@ export class ProductRepositoryPrisma implements  IProductGeteway{
     public static create(prismaClient : PrismaClient){
         return new ProductRepositoryPrisma(prismaClient);
     }
-   public save(product: Product): void {
+   public async save(product: Product): Promise<void> {
         const data  = {
             id: product.id,
             name: product.name,
             price: product.price,
             quantity: product.quantity
         }
-        this.prismaClient.product.create({data});
+        await this.prismaClient.product.create({data});
     }
     public async list(): Promise<Product[]> {
         const products = await this.prismaClient.product.findMany();
