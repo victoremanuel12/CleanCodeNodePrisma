@@ -1,4 +1,5 @@
-import { Product } from "@prisma/client";
+
+import { Product } from "../../Domain/Entity/product.entity";
 import { IProductGeteway } from "../../Domain/Geteways/products.geteway";
 import { Usecase } from "../Usecase";
 

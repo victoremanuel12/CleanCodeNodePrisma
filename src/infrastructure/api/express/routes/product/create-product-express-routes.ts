@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HttpMethod, IRoute } from "../../routes";
-import { CreateProductInputDto, CreateProductUsecase } from "../../../../../UsesCases/product/create-product.usecase";
+import { createProductInputDto, CreateProductUsecase } from "../../../../../UsesCases/product/create-product.usecase";
 
 
 export type CreateProductResponseDto = {
@@ -26,7 +26,7 @@ export class CreateProductRoute implements IRoute {
         return async (request: Request, response: Response) => {
             const { name, price } = request.body;
 
-            const input: CreateProductInputDto = {
+            const input: createProductInputDto = {
                 name,
                 price,
             };
